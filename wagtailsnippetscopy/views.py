@@ -15,7 +15,7 @@ from .registry import snippet_copy_registry
 
 
 @user_passes_test(user_has_any_page_permission)
-def copy(request, app_label, model_name, id):
+def copy(request, app_label, model_name, id, template=None):
     # Validate snippet has been registered and title_field is set.
     meta = snippet_copy_registry.get(app_label, model_name)
     if meta is None:
@@ -67,7 +67,7 @@ def copy(request, app_label, model_name, id):
 
             return redirect('wagtailsnippets:edit', app_label, model_name, new_snippet.id)
 
-    return render(request, 'wagtailsnippetscopy/copy.html', {
+    return render(request, template or 'wagtailsnippetscopy/copy.html', {
         'snippet': snippet,
         'app_label': app_label,
         'model_name': model_name,
